@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f8fb" />
+  <meta name="description" content="A calm, clear place to track money lent, loans, EMIs, and repayments." />
+  <meta name="color-scheme" content="light" />
+  <title>Ledgerly — Your money, accounted for</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="Ledgerly home"><span class="brand-mark">L</span><span>ledgerly<span class="brand-dot">.</span></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span>Overview</button>
+        <button class="nav-item" data-view="lent"><span class="nav-icon">↗</span>Money lent<span class="nav-count" id="lent-count">0</span></button>
+        <button class="nav-item" data-view="borrowed"><span class="nav-icon">↙</span>Money borrowed<span class="nav-count" id="borrowed-count">0</span></button>
+        <button class="nav-item" data-view="payments"><span class="nav-icon">◷</span>Payments</button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-tip"><div class="tip-spark">✳</div><strong>A little clarity goes a long way.</strong><p>Keep every loan in one place. No awkward guesswork.</p></div>
+      <button class="profile-button" id="profile-button"><span class="avatar">Y</span><span class="profile-copy"><strong>Your account</strong><small>Personal account</small></span><span class="profile-more">···</span></button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><span class="crumb-slash">/</span><strong id="page-title">Overview</strong></div><div class="topbar-actions"><span class="today-label" id="today-label"></span><button class="icon-button help-button" id="help-button" aria-label="Help">?</button></div></header>
+      <div class="page-wrap">
+        <section class="welcome-row"><div><div class="eyebrow" id="greeting">YOUR FINANCIAL SNAPSHOT</div><h1 id="heading">Your money at a glance <span class="wave">✳</span></h1><p class="page-subtitle" id="subtitle">Here's where things stand with your money.</p></div><button class="button button-primary" id="add-loan"><span class="plus">＋</span> Add a loan</button></section>
+        <section class="summary-grid" aria-label="Loan summary">
+          <article class="summary-card"><div class="card-top"><span class="card-label">OWED TO YOU</span><span class="metric-icon mint">↗</span></div><div class="metric-value" id="owed-to-you">₹0</div><div class="metric-foot"><span class="status-dot green"></span><span id="lent-foot">Across 0 active loans</span></div><div class="sparkline spark-green"><svg viewBox="0 0 140 38" preserveAspectRatio="none"><path d="M0 28 C12 27 14 13 27 17 S43 31 53 22 65 14 74 19 88 27 97 15 112 18 121 9 133 12 140 4" /></svg></div></article>
+          <article class="summary-card"><div class="card-top"><span class="card-label">YOU OWE</span><span class="metric-icon lavender">↙</span></div><div class="metric-value" id="you-owe">₹0</div><div class="metric-foot"><span class="status-dot purple"></span><span id="borrowed-foot">Across 0 active loans</span></div><div class="sparkline spark-purple"><svg viewBox="0 0 140 38" preserveAspectRatio="none"><path d="M0 8 C12 11 13 22 27 18 S40 14 53 25 63 17 76 22 92 8 101 19 111 25 123 15 133 20 140 8" /></svg></div></article>
+          <article class="summary-card"><div class="card-top"><span class="card-label">NET POSITION</span><span class="metric-icon blue">⌁</span></div><div class="metric-value" id="net-position">₹0</div><div class="card-foot-note" id="net-foot">Lent minus borrowed</div><div class="sparkline spark-blue"><svg viewBox="0 0 140 38" preserveAspectRatio="none"><path d="M0 28 C10 19 15 26 27 21 S41 24 53 15 64 25 75 16 85 21 98 10 110 16 120 9 132 12 140 3" /></svg></div></article>
+          <article class="summary-card due-card"><div class="card-top"><span class="card-label">DUE THIS MONTH</span><span class="metric-icon peach">◷</span></div><div class="metric-value" id="due-month">₹0</div><div class="metric-foot"><span class="status-dot orange"></span><span id="due-foot">No payments due</span></div><div class="due-progress"><span id="due-progress-fill"></span></div></article>
+        </section>
+
+        <section class="content-grid">
+          <div class="panel loans-panel"><div class="panel-heading"><div><h2 id="list-heading">Your loans</h2><p id="list-description">A quick look at everything in motion.</p></div><button class="text-button" id="view-all">View all <span>→</span></button></div>
+            <div class="filter-row"><div class="filter-tabs" id="filter-tabs"><button class="filter-tab selected" data-filter="all">All loans</button><button class="filter-tab" data-filter="lent">Lent</button><button class="filter-tab" data-filter="borrowed">Borrowed</button></div><label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Search loans" aria-label="Search loans"></label></div>
+            <div class="loan-list" id="loan-list"></div><div class="empty-state hidden" id="empty-state"><div class="empty-icon">↗</div><strong>No loans here yet</strong><p>Add a loan to start keeping track.</p><button class="button button-secondary" id="empty-add">＋ Add your first loan</button></div>
+          </div>
+          <aside class="right-column"><section class="panel due-panel"><div class="panel-heading compact"><div><h2>Coming up</h2><p>Your next repayments</p></div><button class="small-icon-button" id="calendar-button" aria-label="Payments view">↗</button></div><div id="upcoming-list" class="upcoming-list"></div></section>
+            <section class="reminder-card"><div class="reminder-art"><span class="art-sun">✳</span><div class="art-paper"><span></span><span></span><span></span><i>✓</i></div><div class="art-chat">···</div></div><div class="reminder-copy"><span class="reminder-kicker">A FRIENDLY NUDGE</span><h3>Money conversations,<br>made a little easier.</h3><p>Send a kind reminder with the exact balance and payment details.</p><button class="button button-light" id="reminder-button">Send a reminder <span>→</span></button></div></section>
+          </aside>
+        </section>
+        <footer class="page-footer"><span>Made for peace of mind <span class="heart">♥</span></span><span id="storage-status">Your data stays in this browser <span class="privacy-dot">●</span></span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <dialog class="modal" id="loan-modal"><form id="loan-form" method="dialog"><div class="modal-header"><div><span class="modal-eyebrow">LOAN RECORD</span><h2 id="loan-modal-title">Add a loan</h2><p id="loan-modal-description">Keep the details handy. You can update them anytime.</p></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
+    <input type="hidden" name="loanId"><div class="form-grid"><label class="field field-full">Who is this with?<input name="person" required maxlength="60" placeholder="e.g. Jamie Lee" autocomplete="name"></label><label class="field">Loan type<select name="direction"><option value="lent">I lent money</option><option value="borrowed">I borrowed money</option></select></label><label class="field">Currency<select name="currency"><option value="INR">INR — ₹ Rupee</option><option value="USD">USD — $ US Dollar</option><option value="EUR">EUR — € Euro</option><option value="GBP">GBP — £ Pound</option></select></label><label class="field">Total amount<input name="principal" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal"></label><label class="field" id="initial-paid-wrap">Already paid<input name="paid" type="number" min="0" step="0.01" value="0" inputmode="decimal"></label><label class="field">Next payment date<input name="nextDate" type="date"></label><label class="field">Monthly EMI (optional)<input name="emi" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></label><label class="field field-full">Notes <span class="optional">OPTIONAL</span><textarea name="notes" rows="2" maxlength="180" placeholder="Anything worth remembering…"></textarea></label></div><div class="modal-actions"><button type="button" class="button button-secondary" data-close>Cancel</button><button class="button button-primary" type="submit" id="loan-submit">Save loan <span>→</span></button></div></form></dialog>
+
+  <dialog class="modal" id="payment-modal"><form id="payment-form" method="dialog"><div class="modal-header"><div><span class="modal-eyebrow">UPDATE BALANCE</span><h2>Record a payment</h2><p id="payment-context"></p></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><input type="hidden" name="loanId"><div class="form-grid"><label class="field">Payment amount<input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal"></label><label class="field">Payment date<input name="date" type="date" required></label><label class="field field-full">Note <span class="optional">OPTIONAL</span><input name="note" maxlength="80" placeholder="e.g. April EMI"></label></div><div class="modal-actions"><button type="button" class="button button-secondary" data-close>Cancel</button><button class="button button-primary" type="submit">Record payment <span>→</span></button></div></form></dialog>
+
+  <dialog class="modal" id="reminder-modal"><form id="reminder-form" method="dialog"><div class="modal-header"><div><span class="modal-eyebrow">FRIENDLY REMINDER</span><h2>Send a gentle nudge</h2><p>Pick a loan and we’ll draft a clear, considerate message.</p></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><div class="form-grid"><label class="field field-full">Choose a loan<select name="loanId" id="reminder-loan" required></select></label><label class="field field-full">Your message<textarea name="message" rows="5" id="reminder-message"></textarea></label></div><div class="modal-actions spread"><button type="button" class="button button-secondary" id="copy-reminder">Copy message</button><div><button type="button" class="button button-secondary" data-close>Close</button> <button type="button" class="button button-primary" id="share-reminder">Share message <span>↗</span></button></div></div></form></dialog>
+
+  <dialog class="modal detail-modal" id="detail-modal"><div class="modal-header"><div><span class="modal-eyebrow" id="detail-type">LOAN DETAILS</span><h2 id="detail-name"></h2><p id="detail-meta"></p></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><div class="detail-balance"><span>REMAINING BALANCE</span><strong id="detail-balance"></strong></div><div class="detail-progress"><span id="detail-progress-fill"></span></div><div class="detail-stats"><div><span>Original amount</span><strong id="detail-principal"></strong></div><div><span>Paid so far</span><strong id="detail-paid"></strong></div></div><p class="detail-notes" id="detail-notes"></p><div class="detail-payments-heading">PAYMENT HISTORY</div><div class="detail-payments" id="detail-payments"></div><div class="modal-actions"><button class="button button-secondary" data-close>Done</button><button class="button button-secondary" id="detail-delete">Delete</button><button class="button button-secondary" id="detail-edit">Edit loan</button><button class="button button-secondary" id="detail-remind">Send reminder</button><button class="button button-primary" id="detail-record">＋ Record payment</button></div></dialog>
+
+  <dialog class="modal info-modal" id="info-modal"><div class="modal-header"><div><span class="modal-eyebrow">LEDGERLY</span><h2>Simple money clarity.</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div><p>Track money lent, loans you’re paying back, and every repayment in one calm place. Your records are saved on this device.</p><div class="info-actions"><button class="button button-secondary" id="export-data">Export my data</button><label class="button button-secondary import-label">Import backup<input id="import-data" type="file" accept="application/json" hidden></label></div><p class="info-small">Importing replaces the records in this browser. Local records are not encrypted; anyone with access to this browser profile may be able to read them. Export a backup before changing devices.</p></dialog>
+</body>
+</html>
